@@ -23,7 +23,7 @@ func FooControllerHandler(c *framework.Context) error {
 		}()
 		// 这里做具体的业务
 		time.Sleep(2 * time.Second)
-		c.Json(200, "ok")
+		c.SetStatus(200).Json("ok")
 		// 新的 goroutine 结束的时候通过一个 finish 通道告知父 goroutine
 		finish <- struct{}{}
 	}()
@@ -33,20 +33,30 @@ func FooControllerHandler(c *framework.Context) error {
 		c.WriterMux().Lock()
 		defer c.WriterMux().Unlock()
 		log.Println(p)
-		c.Json(500, "panic")
+		c.SetStatus(500).Json("panic")
 	case <-finish:
 		fmt.Println("finish")
 	case <-durationCtx.Done():
 		c.WriterMux().Lock()
 		defer c.WriterMux().Unlock()
-		c.Json(500, "time out")
+		c.SetStatus(500).Json("panic")
 		c.SetHasTimeout()
 	}
 	return nil
 }
 
+type Student struct {
+	Name string `json:"name"`
+	Code int    `json:"code"`
+}
+
 func UserLoginController(c *framework.Context) error {
 	// 打印控制器名字
-	c.Json(200, "ok, UserLoginController")
+	s := Student{
+		Name: "m",
+		Code: 18,
+	}
+	time.Sleep(10 * time.Second)
+	c.SetStatus(200).Json(s)
 	return nil
 }

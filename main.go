@@ -10,14 +10,18 @@ import (
 	"time"
 
 	"github.com/zhixian0949/five/framework/gin"
-	"github.com/zhixian0949/five/framework/middleware"
+	"github.com/zhixian0949/five/provider/demo"
 )
 
 func main() {
 	core := gin.New()
-	core.Use(gin.Recovery())
-	core.Use(middleware.Cost())
-	core.Use(middleware.Test2())
+	core.Bind(&demo.DemoServiceProvider{
+		Names: "aaaaaa",
+		Ages:  18,
+	})
+	//core.Use(gin.Recovery())
+	//core.Use(middleware.Cost())
+	//core.Use(middleware.Test2())
 	registerRouter(core)
 	server := &http.Server{
 		// 自定义的请求核心处理函数
@@ -37,7 +41,7 @@ func main() {
 	<-quit
 
 	// 调用Server.Shutdown graceful结束
-	timeoutCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	timeoutCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := server.Shutdown(timeoutCtx); err != nil {

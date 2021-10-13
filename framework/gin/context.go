@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/gin-contrib/sse"
+	"github.com/zhixian0949/five/framework"
 	"github.com/zhixian0949/five/framework/gin/binding"
 	"github.com/zhixian0949/five/framework/gin/render"
 )
@@ -78,6 +79,9 @@ type Context struct {
 	// SameSite allows a server to define a cookie attribute making it impossible for
 	// the browser to send this cookie along with cross-site requests.
 	sameSite http.SameSite
+
+	// Context中保存容器
+	container framework.Container
 }
 
 /************************************/

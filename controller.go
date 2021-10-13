@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/zhixian0949/five/framework/gin"
+	"github.com/zhixian0949/five/provider/demo"
 )
 
 // func FooControllerHandler(c *gin.Context) error {
@@ -50,10 +51,8 @@ type Student struct {
 
 func UserLoginController(c *gin.Context) {
 	// 打印控制器名字
-	s := Student{
-		Name: "m",
-		Code: 18,
-	}
-	time.Sleep(10 * time.Second)
-	c.ISetStatus(200).IJson(s)
+	demoService := c.MustMake(demo.Key).(demo.Service)
+	f := demoService.GetFoo()
+	time.Sleep(2 * time.Second)
+	c.ISetStatus(200).IJson(f)
 }

@@ -2,19 +2,20 @@ package main
 
 import (
 	"context"
-	"five/framework"
-	"five/framework/middleware"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/zhixian0949/five/framework/gin"
+	"github.com/zhixian0949/five/framework/middleware"
 )
 
 func main() {
-	core := framework.NewCore()
-	core.Use(middleware.Recovery())
+	core := gin.New()
+	core.Use(gin.Recovery())
 	core.Use(middleware.Cost())
 	core.Use(middleware.Test2())
 	registerRouter(core)

@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	fiveHttp "github.com/zhixian0949/five/app/http"
 	"github.com/zhixian0949/five/framework/gin"
 	"github.com/zhixian0949/five/provider/demo"
 )
@@ -22,7 +23,7 @@ func main() {
 	//core.Use(gin.Recovery())
 	//core.Use(middleware.Cost())
 	//core.Use(middleware.Test2())
-	registerRouter(core)
+	fiveHttp.Routes(core)
 	server := &http.Server{
 		// 自定义的请求核心处理函数
 		Handler: core,
